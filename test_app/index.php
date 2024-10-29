@@ -24,14 +24,17 @@ require_once('functions.php');
       </tr>
       <?php foreach (getTodoList() as $todo): ?>
         <tr>
+          <!-- <td><?= var_dump($todo);?></td> -->
           <td><?= $todo['id']; ?></td>
           <td><?= $todo['content']; ?></td>
           <td>
-            <a href="">更新</a>
+            <a href="edit.php?id=<?= $todo['id']; ?>">更新</a>
+            <!-- <a href="edit.php?todo_id=123&todo_content=焼肉">更新</a> -->
+          </td>
           </td>
           <td>
             <form action="store.php" method="post">
-              <input type="hidden" name="id" value="">
+              <input type="hidden" name="id" value="<?= $todo['id']; ?>"> 
               <button type="submit">削除</button>
             </form>
           </td>
