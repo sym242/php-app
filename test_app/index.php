@@ -5,6 +5,9 @@
   <title>Home</title>
 </head>
 <body>
+<?php if (!empty($_SESSION['err'])): ?> 
+    <p><?= $_SESSION['err']; ?></p>
+  <?php endif; ?>
   welcome hello world
   <div>
     <a href="new.php">
@@ -12,6 +15,8 @@
       </a>
       <?php
 require_once('functions.php');
+header('Set-Cookie: userId=123');
+setToken();
 ?>
   </div>
   <div> 
@@ -24,17 +29,17 @@ require_once('functions.php');
       </tr>
       <?php foreach (getTodoList() as $todo): ?>
         <tr>
-          <!-- <td><?= var_dump($todo);?></td> -->
-          <td><?= $todo['id']; ?></td>
-          <td><?= $todo['content']; ?></td>
+          <!-- <?= var_dump($todo);?> -->
+          <td><?= e($todo['id']); ?></td>
+          <td><?= e($todo['content']); ?></td> 
           <td>
-            <a href="edit.php?id=<?= $todo['id']; ?>">更新</a>
-            <!-- <a href="edit.php?todo_id=123&todo_content=焼肉">更新</a> -->
-          </td>
+          <a href="edit.php?id=<?= e($todo['id']); ?>">更新</a>
           </td>
           <td>
             <form action="store.php" method="post">
-              <input type="hidden" name="id" value="<?= $todo['id']; ?>"> 
+            <input type="hidden" name="id" value="<?= e($todo['id']); ?>"> 
+            <input type="hidden" name="token" value="<?= $_SESSION['token']; ?>">  
+            <!-- 上の行を実行するとエラーが出る？-->
               <button type="submit">削除</button>
             </form>
           </td>
@@ -42,5 +47,6 @@ require_once('functions.php');
       <?php endforeach; ?>
     </table>
   </div>
+  <?php unsetError(); ?>
 </body>
 </html>
